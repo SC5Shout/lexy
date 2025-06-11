@@ -14635,8 +14635,6 @@ struct _equals
         return id == Value;
     }
 };
-template <int Value>
-using equals = _equals<Value>;
 
 template <int Value>
 struct _not_equals
@@ -14647,32 +14645,6 @@ struct _not_equals
         return id != Value;
     }
 };
-template <int Value>
-using not_equals = _not_equals<Value>;
-
-template <int Value>
-struct _greater
-{
-    template <typename T>
-    constexpr bool operator()(T id) const noexcept
-    {
-        return id > Value;
-    }
-};
-template <int Value>
-using greater = _greater<Value>;
-
-template <int Value>
-struct _less
-{
-    template <typename T>
-    constexpr bool operator()(T id) const noexcept
-    {
-        return id < Value;
-    }
-};
-template <int Value>
-using less = _less<Value>;
 
 template <typename Id>
 struct _ctx_counter_dsl
@@ -14712,7 +14684,7 @@ struct _ctx_counter_dsl
     template <int Value>
     constexpr auto is() const
     {
-        return _ctx_cis<Id, equals<Value>>{};
+        return _ctx_cis<Id, _equals<Value>>{};
     }
     constexpr auto is_zero() const
     {
@@ -14722,11 +14694,11 @@ struct _ctx_counter_dsl
     template <int Value>
     constexpr auto is_not() const
     {
-        return _ctx_cis<Id, not_equals<Value>>{};
+        return _ctx_cis<Id, _not_equals<Value>>{};
     }
     constexpr auto is_not_zero() const
     {
-        return is<0>();
+        return is_not<0>();
     }
 
     constexpr auto value() const
