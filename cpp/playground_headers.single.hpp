@@ -14627,7 +14627,7 @@ struct _ctx_ceq<H, T...> : branch_base
 namespace lexyd
 {
 template <int Value>
-struct _equals
+struct _eq
 {
     template <typename T>
     constexpr bool operator()(T id) const noexcept
@@ -14637,7 +14637,7 @@ struct _equals
 };
 
 template <int Value>
-struct _not_equals
+struct _neq
 {
     template <typename T>
     constexpr bool operator()(T id) const noexcept
@@ -14684,7 +14684,7 @@ struct _ctx_counter_dsl
     template <int Value>
     constexpr auto is() const
     {
-        return _ctx_cis<Id, _equals<Value>>{};
+        return _ctx_cis<Id, _eq<Value>>{};
     }
     constexpr auto is_zero() const
     {
@@ -14694,7 +14694,7 @@ struct _ctx_counter_dsl
     template <int Value>
     constexpr auto is_not() const
     {
-        return _ctx_cis<Id, _not_equals<Value>>{};
+        return _ctx_cis<Id, _neq<Value>>{};
     }
     constexpr auto is_not_zero() const
     {
